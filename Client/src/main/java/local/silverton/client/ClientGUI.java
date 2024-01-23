@@ -170,8 +170,17 @@ public class ClientGUI extends javax.swing.JFrame {
         portNumber = inputPortNum.getText();
         username = inputUsername.getText();
         
-        if (!hostAddress.isBlank() && !portNumber.isBlank() && !username.isBlank())
-            System.out.println("Success");
+        if (!hostAddress.isBlank() && !portNumber.isBlank() && !username.isBlank()) {
+            System.out.println("Success!");
+            
+            this.setVisible(false);
+            
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new ChatGUI().setVisible(true);
+                }
+            });
+        }
         else
             errorLabel.setVisible(true);
     }//GEN-LAST:event_joinChatButtonActionPerformed

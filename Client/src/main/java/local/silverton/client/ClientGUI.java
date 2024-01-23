@@ -4,11 +4,32 @@
  */
 package local.silverton.client;
 
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
 /**
  *
  * @author Abdullah
  */
 public class ClientGUI extends javax.swing.JFrame {
+    
+    private static InetAddress host;  /* Used to connect to server. */
+    
+    public static Scanner keyboard = new Scanner(System.in);
+
+    /* Used by MessageSender thread to let ServerHandler thread know if it needs to print a new prompt. */
+    public static boolean wantsToSend = true;
+
+    /* Declare and initialize with hard coded values. May change from arguments. */
+    private static String hostAddress;
+    private static String portNumber;
+    
+    /* Declare and initialize username to an empty string. Will prompt user for username if not provided. */
+    private static String username;
+    
+    /* Used to encrypt/decrypt messages. */
+    private static String bytePad = "";
 
     /**
      * Creates new form ClientGUI
@@ -26,31 +47,123 @@ public class ClientGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        hostAddrLabel = new javax.swing.JLabel();
+        inputHostAddr = new javax.swing.JTextField();
+        portNumLabel = new javax.swing.JLabel();
+        inputPortNum = new javax.swing.JTextField();
+        usernameLabel = new javax.swing.JLabel();
+        inputUsername = new javax.swing.JTextField();
+        joinChatButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Hello Client!");
+        hostAddrLabel.setLabelFor(hostAddrLabel);
+        hostAddrLabel.setText("Host Address");
+
+        inputHostAddr.setText("Localhost");
+        inputHostAddr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputHostAddrActionPerformed(evt);
+            }
+        });
+
+        portNumLabel.setLabelFor(portNumLabel);
+        portNumLabel.setText("Port Number");
+
+        inputPortNum.setText("20750");
+        inputPortNum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputPortNumActionPerformed(evt);
+            }
+        });
+
+        usernameLabel.setText("Username");
+
+        inputUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputUsernameActionPerformed(evt);
+            }
+        });
+
+        joinChatButton.setText("Join Chat");
+        joinChatButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                joinChatButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(164, 164, 164)
-                .addComponent(jLabel1)
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(joinChatButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(portNumLabel)
+                                    .addComponent(usernameLabel)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(hostAddrLabel)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inputHostAddr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputPortNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(254, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {inputHostAddr, inputPortNum, inputUsername});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(139, 139, 139)
-                .addComponent(jLabel1)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(hostAddrLabel)
+                    .addComponent(inputHostAddr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(portNumLabel)
+                    .addComponent(inputPortNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usernameLabel)
+                    .addComponent(inputUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(joinChatButton)
+                .addContainerGap(163, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void inputHostAddrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputHostAddrActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputHostAddrActionPerformed
+
+    private void inputPortNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputPortNumActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputPortNumActionPerformed
+
+    private void inputUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputUsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputUsernameActionPerformed
+
+    private void joinChatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinChatButtonActionPerformed
+        hostAddress = inputHostAddr.getText();
+        portNumber = inputPortNum.getText();
+        username = inputUsername.getText();
+        
+        if (!hostAddress.isBlank() && !portNumber.isBlank() && !username.isBlank())
+            System.out.println("Success");
+    }//GEN-LAST:event_joinChatButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,6 +192,8 @@ public class ClientGUI extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -88,6 +203,12 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel hostAddrLabel;
+    private javax.swing.JTextField inputHostAddr;
+    private javax.swing.JTextField inputPortNum;
+    private javax.swing.JTextField inputUsername;
+    private javax.swing.JButton joinChatButton;
+    private javax.swing.JLabel portNumLabel;
+    private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 }

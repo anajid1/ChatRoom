@@ -8,6 +8,6 @@ package local.silverton.client;
  *
  * @author Abdullah
  */
-public class Controller {
+public class ServerHandler extends Thread {
     
 }

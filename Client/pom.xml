@@ -19,6 +19,6 @@
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <exec.mainClass>local.silverton.client.ClientGUI</exec.mainClass>
+        <exec.mainClass>local.silverton.client.Driver</exec.mainClass>
     </properties>
 </project>

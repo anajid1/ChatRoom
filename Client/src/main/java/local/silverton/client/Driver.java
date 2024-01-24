@@ -8,6 +8,10 @@ package local.silverton.client;
  *
  * @author Abdullah
  */
-public class Model {
+public class Driver {
+    
+    public static void main(String[] args) {
+        ClientGUI.startGUI();
+    }
     
 }

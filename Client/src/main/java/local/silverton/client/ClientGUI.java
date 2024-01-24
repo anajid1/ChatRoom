@@ -4,32 +4,18 @@
  */
 package local.silverton.client;
 
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
-
 /**
  *
  * @author Abdullah
  */
 public class ClientGUI extends javax.swing.JFrame {
-    
-    private static InetAddress host;  /* Used to connect to server. */
-    
-    public static Scanner keyboard = new Scanner(System.in);
-
-    /* Used by MessageSender thread to let ServerHandler thread know if it needs to print a new prompt. */
-    public static boolean wantsToSend = true;
 
     /* Declare and initialize with hard coded values. May change from arguments. */
-    private static String hostAddress;
-    private static String portNumber;
+    public static String hostAddress;
+    public static String portNumber;
     
     /* Declare and initialize username to an empty string. Will prompt user for username if not provided. */
-    private static String username;
-    
-    /* Used to encrypt/decrypt messages. */
-    private static String bytePad = "";
+    public static String username;
 
     /**
      * Creates new form ClientGUI
@@ -173,8 +159,9 @@ public class ClientGUI extends javax.swing.JFrame {
         if (!hostAddress.isBlank() && !portNumber.isBlank() && !username.isBlank()) {
             System.out.println("Success!");
             
-            this.setVisible(false);
+            Driver.continueToServer(hostAddress, portNumber, username);
             
+            this.setVisible(false);
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
                     new ChatGUI().setVisible(true);
@@ -185,43 +172,6 @@ public class ClientGUI extends javax.swing.JFrame {
             errorLabel.setVisible(true);
     }//GEN-LAST:event_joinChatButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        
-//        
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new ClientGUI().setVisible(true);
-//            }
-//        });
-//    }
-    
     public static void startGUI() {
          java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

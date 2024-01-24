@@ -4,10 +4,30 @@
  */
 package local.silverton.client;
 
+import java.net.*;
+
 /**
  *
  * @author Abdullah
  */
-public class ServerHandler extends Thread {
+public class ServerHandler implements Runnable {
     
+    private InetAddress host;
+    
+    private String hostAddress;
+    private String portNumber;
+    
+    private String username;
+    
+    private String bytePad;
+    
+    public ServerHandler(String hostAddress, String portNumber, String username) {
+        this.hostAddress = hostAddress;
+        this.portNumber = portNumber;
+        this.username = username;
+    }
+    
+    public void run() {
+        System.out.println("Hello ServerHandler Thread!");
+    }
 }

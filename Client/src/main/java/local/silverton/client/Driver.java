@@ -12,6 +12,11 @@ public class Driver {
     
     public static void main(String[] args) {
         ClientGUI.startGUI();
+        
     }
     
+    public static void continueToServer(String hostAddress, String portNumber, String username) {
+        ServerHandler serverHandler = new ServerHandler(hostAddress, portNumber, username);
+        serverHandler.run();
+    }
 }

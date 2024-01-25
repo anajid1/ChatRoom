@@ -4,17 +4,33 @@
  */
 package local.silverton.client;
 
+import java.io.PrintWriter;
+import java.net.Socket;
+import static local.silverton.client.ServerHandler.enryptMessage;
+import local.silverton.common.Cryptography;
+
 /**
  *
  * @author Abdullah
  */
 public class ChatGUI extends javax.swing.JFrame {
+    
+    private String username;
+    private Socket link;
+    private PrintWriter out;
+    private String bytePad;
 
     /**
      * Creates new form ChatGUI
      */
-    public ChatGUI() {
-        initComponents();
+    public ChatGUI(String username, PrintWriter out, Socket link, String bytePad) {
+        this.username = username;
+        
+        this.out = out;
+        this.link = link;
+        this.bytePad = bytePad;
+        
+        initComponents();   
         this.setVisible(true);
     }
     
@@ -36,6 +52,7 @@ public class ChatGUI extends javax.swing.JFrame {
         sendButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Chat");
 
         chatTextArea.setColumns(20);
         chatTextArea.setRows(5);
@@ -44,6 +61,11 @@ public class ChatGUI extends javax.swing.JFrame {
         textInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textInputActionPerformed(evt);
+            }
+        });
+        textInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textInputKeyPressed(evt);
             }
         });
 
@@ -63,9 +85,9 @@ public class ChatGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textInput)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textInput)))
+                        .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -75,21 +97,42 @@ public class ChatGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textInput)
-                    .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-                .addGap(12, 12, 12))
+                    .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(textInput))
+                .addGap(11, 11, 11))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        
+        sendMessage();
     }//GEN-LAST:event_sendButtonActionPerformed
 
+    private void sendMessage() {
+        String text = textInput.getText();
+        if (text.isBlank())
+            return;
+        
+        appendToChatArea(username + ": " + text);
+        out.println(encryptMessage(text));
+        textInput.setText("");
+    }
+    
+    /* Method is just used to simplify and make code cleaner to read. */
+    public String encryptMessage(String message) {
+    	return Cryptography.encrypt(bytePad, message);
+    }
+    
     private void textInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textInputActionPerformed
+
+    private void textInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textInputKeyPressed
+        // TODO add your handling code here:
+        if (evt.getExtendedKeyCode() == 10)             // Enter key pressed
+            sendMessage();
+    }//GEN-LAST:event_textInputKeyPressed
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea chatTextArea;

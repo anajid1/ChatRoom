@@ -50,7 +50,7 @@ public class ServerHandler implements Runnable {
     
     public static void handler() throws NumberFormatException, IOException {
         
-        ChatGUI chatGUI = new ChatGUI();
+        
         
         
         
@@ -105,8 +105,10 @@ public class ServerHandler implements Runnable {
         out.println(Cryptography.encrypt(bytePad, username));
 
         /* Create and start thread for prompting user for messages to send to server. */
-        MessageSender messageSender = new MessageSender(link, out);
-        messageSender.start();
+//        MessageSender messageSender = new MessageSender(link, out);
+//        messageSender.start();
+        
+        ChatGUI chatGUI = new ChatGUI(username, out, link, bytePad);
 
         /* Calculate spaces and backspaces to clear user prompt on current console line for a message. */
         String spaces = "  ";
@@ -140,7 +142,7 @@ public class ServerHandler implements Runnable {
         }
     }
     
-        /* Threaded class used to send messages to server. */
+    /* Threaded class used to send messages to server. */
     public static class MessageSender extends Thread {
         Socket link;
         PrintWriter out;

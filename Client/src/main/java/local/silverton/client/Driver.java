@@ -18,7 +18,9 @@ public class Driver {
         
 //        ChatGUI chatGUI = new ChatGUI();
         
-        ServerHandler serverHandler = new ServerHandler("localhost", "20750", "anajid");
+        String username = "user" + Math.random();
+        
+        ServerHandler serverHandler = new ServerHandler("localhost", "20750", username);
         serverHandler.run();
         
         

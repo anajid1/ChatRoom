@@ -16,10 +16,12 @@ public class Driver {
         // Debug ClientGUI later
         //ClientGUI clientGUI = new ClientGUI();
         
-        ChatGUI chatGUI = new ChatGUI();
+//        ChatGUI chatGUI = new ChatGUI();
         
         ServerHandler serverHandler = new ServerHandler("localhost", "20750", "anajid");
         serverHandler.run();
+        
+        
         
     }
     

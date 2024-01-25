@@ -49,6 +49,11 @@ public class ServerHandler implements Runnable {
     }
     
     public static void handler() throws NumberFormatException, IOException {
+        
+        ChatGUI chatGUI = new ChatGUI();
+        
+        
+        
         System.out.println("Hello ServerHandler Thread!");
         try {
             /* Get server IP-address */
@@ -110,12 +115,15 @@ public class ServerHandler implements Runnable {
     		spaces += " ";
     		backSpaces += "\b";
         }
+        
+        chatGUI.appendToChatArea("Hello Chat!");
 
         /* Keep printing messages from server till server sends DONE. */
         String response = decryptMessage(in.readLine());
         while(!response.equals("DONE")) {
             /* Clear current user prompt and put the message. */
             System.out.print(backSpaces + spaces + backSpaces + response + "\n");
+            chatGUI.appendToChatArea(response);
             if(wantsToSend)
                 /* User still wants to send messages so print out a new prompt. */
                 System.out.print(username + "> ");

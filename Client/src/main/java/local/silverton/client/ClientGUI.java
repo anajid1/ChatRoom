@@ -22,6 +22,7 @@ public class ClientGUI extends javax.swing.JFrame {
      */
     public ClientGUI() {
         initComponents();
+        this.setVisible(true);
     }
 
     /**
@@ -159,26 +160,13 @@ public class ClientGUI extends javax.swing.JFrame {
         if (!hostAddress.isBlank() && !portNumber.isBlank() && !username.isBlank()) {
             System.out.println("Success!");
             
-            Driver.continueToServer(hostAddress, portNumber, username);
+            this.dispose();
             
-            this.setVisible(false);
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    new ChatGUI().setVisible(true);
-                }
-            });
+            Driver.continueToServer(hostAddress, portNumber, username);
         }
         else
             errorLabel.setVisible(true);
     }//GEN-LAST:event_joinChatButtonActionPerformed
-
-    public static void startGUI() {
-         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ClientGUI().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel errorLabel;
